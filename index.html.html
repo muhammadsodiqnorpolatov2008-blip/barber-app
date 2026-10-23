@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Navbat olish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#4a372a;--card:#37281e;--gold:#c9a227;--gold2:#e0b93f;--cream:#f3ead9;--mut:#bba68e;--line:#5f4a39;--serif:"Playfair Display",Georgia,serif;--cond:Oswald,"Arial Narrow",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 16px calc(110px + env(safe-area-inset-bottom,0px))}
+main{max-width:520px;margin:0 auto}
+.hero{position:relative;margin:0 -16px;padding:calc(60px + env(safe-area-inset-top,0px)) 24px 52px;text-align:center;overflow:hidden;background:radial-gradient(420px 260px at 75% 15%,rgba(201,162,39,.30),transparent),linear-gradient(160deg,#2d1f15,#160e09);background-size:cover;background-position:center}
+.hero svg{position:absolute;right:-30px;top:18px;width:230px;opacity:.16;stroke:var(--gold2);fill:none;stroke-width:5;stroke-linecap:round}
+.hero>*:not(svg){position:relative}
+.hi{font:500 13px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
+h1{font:700 clamp(34px,10.5vw,46px)/1.1 var(--serif)}
+h1 span{display:block;color:var(--gold2)}
+.lead{color:#d8cbb6;font-size:15px;margin:16px auto 24px;max-width:360px}
+.btn{display:inline-block;text-decoration:none;font:500 14px var(--cond);letter-spacing:.14em;text-transform:uppercase;padding:13px 24px;border-radius:4px;border:1.5px solid var(--gold);color:var(--gold2);margin:0 4px}
+.btn.fill{background:var(--gold);color:#1c1208}
+.t{text-align:center;margin:46px 0 8px;font:700 28px var(--serif);scroll-margin-top:16px}
+.t::after{content:"";display:block;width:56px;height:2px;background:var(--gold);margin:10px auto 0}
+.ts{text-align:center;color:var(--mut);font-size:14px;margin-bottom:20px}
+.sv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{position:relative;overflow:hidden;text-align:left;padding:0;font:inherit;color:inherit;background:var(--card);border:1.5px solid transparent;border-radius:8px;cursor:pointer;transition:transform .15s,border-color .2s}
+.card:last-child:nth-child(odd){grid-column:1/-1}
+.card:active{transform:scale(.98)}
+.card.on{border-color:var(--gold)}
+.card.on::after{content:"✓";position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#1c1208;display:grid;place-items:center;font-weight:700;font-size:14px}
+.ph{height:104px;display:grid;place-items:center;font-size:42px;background:linear-gradient(135deg,#6d503a,#26190f) center/cover}
+.cb{padding:12px}
+.cb h3{font:500 17px var(--cond);color:var(--gold2);letter-spacing:.03em}
+.cb p{color:var(--mut);font-size:13px;margin:4px 0 10px;min-height:36px}
+.pr{font:600 21px var(--cond)}.pr small{font:13px system-ui,sans-serif;color:var(--mut);margin-left:4px}
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 16px 8px;margin:0 -16px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.chip{font:inherit;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:8px;cursor:pointer;min-height:48px;transition:transform .15s}
+.chip:active{transform:scale(.96)}
+.chip:disabled{opacity:.35;cursor:not-allowed}
+.chip:focus-visible,.card:focus-visible,.btn:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#1c1208}
+.days .chip{flex:0 0 76px;padding:10px 4px;text-align:center}
+.d1,.d3{font-size:12px;color:var(--mut)}.d2{font:600 24px/1.2 var(--cond)}
+.chip.on .d1,.chip.on .d3{color:#4a3a14}
+.grp{font:500 13px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:16px 0 8px}
+.hours{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hours .chip{padding:12px 0;font:500 17px var(--cond);text-align:center}
+.sum{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:7px 0}
+.sum span{color:var(--mut)}
+.sum .tot{border-top:1px dashed var(--line);margin-top:6px;padding-top:12px;font:600 20px var(--cond)}
+.sum .tot b{color:var(--gold2)}
+.note,.foot{color:var(--mut);font-size:13px;margin-top:14px;text-align:center}
+.foot a{color:var(--gold2)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero" id="hero">
+  <svg viewBox="0 0 120 120"><circle cx="30" cy="92" r="14"/><circle cx="90" cy="92" r="14"/><path d="M38 80 96 12M82 80 24 12"/></svg>
+  <p class="hi" id="hi">Xush kelibsiz</p>
+  <h1>An'anaviy qirqim.<span>Zamonaviy uslub.</span></h1>
+  <p class="lead">Tajribali ustadan sifatli xizmat. Navbatni oldindan band qiling, kutib o'tirmang.</p>
+  <a class="btn fill" href="#h-sv">Navbat olish</a>
+</header>
+<main>
+  <h2 class="t" id="h-sv">Bizning xizmatlar</h2>
+  <p class="ts">Xizmatni tanlang</p>
+  <div id="svc" class="sv"></div>
+  <h2 class="t" id="h-days">Kunni tanlang</h2>
+  <div id="days" class="days"></div>
+  <h2 class="t" id="h-hours">Vaqtni tanlang</h2>
+  <div id="hours"></div>
+  <h2 class="t" id="h-sum">Navbat tafsilotlari</h2>
+  <div id="sum" class="sum"></div>
+  <p class="note" id="note" hidden>Bu sahifa Telegram ichida ishlaydi. Botdagi “Navbat olish” tugmasidan oching.</p>
+  <p class="foot" id="foot"></p>
+</main>
+<script>
+const tg = Telegram.WebApp; tg.ready(); tg.expand();
+const HERO_IMG = "";                    // rasm qo'yish: "hero.jpg" (rasmni GitHub'ga index.html yoniga yuklang)
+const SHOP = {phone:"", address:""};    // masalan phone:"+998901234567"
+// [id, emoji, nom, narx, tavsif, rasm]  (id, nom va narx bot.py bilan bir xil bo'lsin)
+const SERVICES = [
+  ["1","✂️","Soch olish",50000,"Klassik yoki zamonaviy qirqim, yuvish va ukladka","" ],
+  ["2","🧔","Soqol",30000,"Soqolni shakllantirish va tartibga solish",""],
+  ["3","💈","Soch + soqol",70000,"To'liq paket: soch va soqol bir vaqtda",""]
+];
+const HOURS = Array.from({length:10},(_,i)=>String(i+9).padStart(2,"0")+":00");
+const GROUPS = [["Ertalab",9,11],["Tushdan keyin",12,15],["Kechqurun",16,18]];
+const WD = ["Yakshanba","Dushanba","Seshanba","Chorshanba","Payshanba","Juma","Shanba"];
+const qs = new URLSearchParams(location.search);
+const busy = new Set((qs.get("busy")||"").split(",").filter(Boolean));
+const off = new Set((qs.get("off")||"").split(",").filter(Boolean));
+const sel = {s:null,d:null,t:null};
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,"0");
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const nowT = () => new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Tashkent"}));
+const som = n => n.toLocaleString("ru");
+const tick = () => { try{ tg.HapticFeedback.selectionChanged(); }catch(e){} };
+const jump = id => $(id).scrollIntoView({block:"start"});
+const DAYS = Array.from({length:7},(_,i)=>{ const d = nowT(); d.setDate(d.getDate()+i); return {k:iso(d),i,d}; });
+
+function free(day){
+  if (off.has(day)) return [];
+  const [y,m,d] = day.split("-").map(Number), n = nowT();
+  return HOURS.filter(h => !busy.has(day+"_"+h.replace(":","")) && new Date(y,m-1,d,+h.slice(0,2)) - n >= 30*60000);
+}
+function el(tag,cls,html){ const e = document.createElement(tag); if(cls) e.className = cls; if(html!=null) e.innerHTML = html; return e; }
+function chip(html,on,dis,fn,cls="chip"){
+  const b = el("button",cls+(on?" on":""),html);
+  b.disabled = dis; b.setAttribute("aria-pressed",String(on)); b.onclick = () => { tick(); fn(); };
+  return b;
+}
+function dayLabel(k){ const d = new Date(k+"T00:00"); return `${pad(d.getDate())}.${pad(d.getMonth()+1)} · ${WD[d.getDay()]}`; }
+
+function rSvc(){
+  const b = $("svc"); b.innerHTML = "";
+  SERVICES.forEach(([id,ic,n,p,desc,img]) => b.append(chip(
+    `<div class="ph"${img?` style="background-image:url('${img}')"`:""}>${img?"":ic}</div>`+
+    `<div class="cb"><h3>${n}</h3><p>${desc}</p><div class="pr">${som(p)}<small>so'm</small></div></div>`,
+    sel.s===id, false, () => { sel.s=id; rSvc(); rSum(); jump("h-days"); }, "card")));
+}
+function rDays(){
+  const b = $("days"), x = b.scrollLeft; b.innerHTML = "";
+  DAYS.forEach(({k,i,d}) => {
+    const n = free(k).length, w = i===0 ? "Bugun" : i===1 ? "Ertaga" : WD[d.getDay()].slice(0,3);
+    b.append(chip(`<div class="d1">${w}</div><div class="d2">${d.getDate()}</div><div class="d3">${n ? n+" bo'sh" : "band"}</div>`,
+      sel.d===k, !n, () => { sel.d=k; sel.t=null; rDays(); rHours(); rSum(); jump("h-hours"); }));
+  });
+  b.scrollLeft = x;
+}
+function rHours(){
+  const b = $("hours"); b.innerHTML = "";
+  if (!sel.d){ b.append(el("p","note","Avval kunni tanlang.")); return; }
+  const f = free(sel.d);
+  GROUPS.forEach(([name,a,z]) => {
+    const hs = f.filter(h => +h.slice(0,2)>=a && +h.slice(0,2)<=z);
+    if (!hs.length) return;
+    b.append(el("div","grp",name));
+    const g = el("div","hours");
+    hs.forEach(h => g.append(chip(h, sel.t===h, false, () => { sel.t=h; rHours(); rSum(); jump("h-sum"); })));
+    b.append(g);
+  });
+  if (!f.length) b.append(el("p","note","Bu kunda bo'sh vaqt qolmagan."));
+}
+function rSum(){
+  const s = SERVICES.find(x => x[0]===sel.s);
+  $("sum").innerHTML =
+    `<div><span>Xizmat</span><b>${s ? s[1]+" "+s[2] : "—"}</b></div>`+
+    `<div><span>Kun</span><b>${sel.d ? dayLabel(sel.d) : "—"}</b></div>`+
+    `<div><span>Vaqt</span><b>${sel.t || "—"}</b></div>`+
+    `<div class="tot"><span>Jami</span><b>${s ? som(s[3])+" so'm" : "—"}</b></div>`;
+  if (s && sel.d && sel.t){
+    try{ tg.MainButton.setParams({text:`Navbat olish · ${sel.t}`,color:"#c9a227",text_color:"#1c1208"}); }
+    catch(e){ tg.MainButton.setText("Yuborish"); }
+    tg.MainButton.show();
+  } else tg.MainButton.hide();
+}
+function send(){
+  const s = SERVICES.find(x => x[0]===sel.s);
+  const fire = () => tg.sendData(JSON.stringify({s:sel.s,d:sel.d,t:sel.t}));
+  if (tg.isVersionAtLeast && tg.isVersionAtLeast("6.2"))
+    tg.showConfirm(`Navbatni yuboramizmi?\n${s[2]} · ${dayLabel(sel.d)} · ${sel.t}`, ok => { if(ok) fire(); });
+  else fire();
+}
+tg.MainButton.onClick(send);
+
+try{ tg.setHeaderColor("#160e09"); tg.setBackgroundColor("#4a372a"); }catch(e){}
+try{ const u = tg.initDataUnsafe.user; if (u && u.first_name) $("hi").textContent = "Salom, "+u.first_name; }catch(e){}
+if (HERO_IMG) $("hero").style.backgroundImage = `linear-gradient(rgba(20,13,9,.55),rgba(20,13,9,.85)),url('${HERO_IMG}')`;
+if (!tg.initData) $("note").hidden = false;
+$("foot").innerHTML = [SHOP.address && "📍 "+SHOP.address, SHOP.phone && `📞 <a href="tel:${SHOP.phone}">${SHOP.phone}</a>`].filter(Boolean).join("<br>");
+rSvc(); rDays(); rHours(); rSum();
+</script>
+</body>
+</html>
